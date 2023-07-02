@@ -41,6 +41,10 @@ for acc in account:
         pic = driver.find_element(by=By.XPATH, value="//div[@id='bak_0']/div[1]")
         back_url = pic.value_of_css_property("background")
         requests.get("http://ftp6581717.host130.sanfengyun.cn/saveUrl.php?v="+back_url)
+
+        driver.close()
+
+        
         iframe = driver.find_element(by=By.NAME, value='zzj_top_6s')  # 进入信息确认界面
         driver.switch_to.frame(iframe)  # 切换为子页面
         res = driver.find_element(by=By.XPATH, value='//*[@id="bak_0"]/div[5]/span')
