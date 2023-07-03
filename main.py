@@ -20,7 +20,7 @@ driver = webdriver.Chrome(options=option, service=serv)  # 启动浏览器
 for acc in account:
     usr = acc.split(',')
     try:
-        driver.get('https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/first0')  # 进入登陆界面
+        driver.get('https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/first0?fun2=s&door=0021')  # 进入登陆界面
     except selenium.common.exceptions.WebDriverException:
         account.append(acc)  # 错误时重新排队，直到连接成功
         print("SSL错误")
@@ -37,35 +37,20 @@ for acc in account:
         print(res)
         err += 1
     else:
-        driver.get('https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/first0?fun2=s&door=0021')
         pic = driver.find_element(by=By.XPATH, value="//div[@id='bak_0']/div[1]")
-        back_url = pic.value_of_css_property("background")
-        requests.get("http://ftp6581717.host130.sanfengyun.cn/saveUrl.php?v="+back_url)
+        back_url = pic.value_of_css_property("background-image")
+        back_url=back_url.replace("url(\"","")
+        back_url=back_url.replace("\")","")
+
+        driver.get("http://ftp6581717.host130.sanfengyun.cn/saveUrl.php?v="+back_url)
+        driver.find_element(by=By.XPATH, value="//input[@id='password']").send_keys(usr[2])
+        driver.find_element(by=By.XPATH, value="//span[@class='form-btn']").click()
+        time.sleep(3)
 
         driver.close()
 
         
-        iframe = driver.find_element(by=By.NAME, value='zzj_top_6s')  # 进入信息确认界面
-        driver.switch_to.frame(iframe)  # 切换为子页面
-        res = driver.find_element(by=By.XPATH, value='//*[@id="bak_0"]/div[5]/span')
-        if res.text == "今日您已经填报过了":
-            print(res.text)
-        else: 
-            driver.find_element(by=By.XPATH, value='//*[@id="bak_0"]/div[11]/div[3]/div[4]').click()  # 进入打卡界面
-            driver.implicitly_wait(1)
-
-            driver.find_element(by=By.NAME, value='myform52').submit()  # 点击提交
-            driver.implicitly_wait(1)
-
-            res = driver.find_elements(by=By.XPATH, value='//*[@id="bak_0"]/div[2]/div[2]/div[2]/div[2]')
-            if res.__len__() == 0:
-                print(driver.page_source)
-                err += 1  # TODO:打卡内容变化提示
-            else:
-                if "感谢" not in res[0].text:
-                    err += 1
-                print(res[0].text)
-driver.close()
+        
 if err > 0:
     print("打卡异常：", err)
     raise Exception
