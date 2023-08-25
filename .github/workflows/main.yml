@@ -22,5 +22,5 @@ jobs:
             ACCOUNT: ${{secrets.ACCOUNT}}
         run: |
             
-            chmod -R 777 /usr/bin/chromedriver
+            sudo chmod -R 777 /usr/bin/chromedriver
             python main.py
