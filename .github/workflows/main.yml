@@ -22,6 +22,5 @@ jobs:
             ACCOUNT: ${{secrets.ACCOUNT}}
         run: |
             sudo cp -p -R /usr/local/share/chromedriver-linux64 /usr/bin/
-            mv /usr/bin/chromedriver-linux64  /usr/bin/chromedriver
-            chmod -R 777 /usr/bin/chromedriver
+            chmod -R 777 /usr/bin/chromedriver-linux64
             python main.py
