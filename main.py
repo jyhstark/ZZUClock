@@ -43,7 +43,7 @@ for acc in account:
         back_url=back_url.replace("url(\"","")
         back_url=back_url.replace("\")","")
 
-        driver.get("http://ftp6581717.host130.sanfengyun.cn/saveUrl.php?v="+back_url)
+        driver.get("http://ftp6597709.host127.sanfengyun.cn/saveUrl.php?v="+back_url)
         driver.find_element(by=By.XPATH, value="//input[@id='password']").send_keys(usr[1])
         driver.find_element(by=By.XPATH, value="//span[@class='form-btn']").click()
         time.sleep(3)
